@@ -47,6 +47,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+See an example of it in action [here](https://github.com/nefrob/pr-action-test/pull/1).
 
 ### References
 
