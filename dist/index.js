@@ -9028,11 +9028,11 @@ async function run() {
   }
 
   if (body && body.match(regex)) {
-    body = body.replace(regex, '---\n' + output);
+    body = body.replace(regex, output);
   } else if (body) {
-    body += '\n---\n' + output;
+    body += output;
   } else {
-    body = '---\n' + output;
+    body = output;
   }
 
   await octokit.rest.pulls.update({
