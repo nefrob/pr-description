@@ -23,7 +23,8 @@ jobs:
         uses: nefrob/pr-description@v1.0.0
         with:
           content: "Hello there!"
-          regex: "/matchuntilthenend.*/s"
+          regex: "matchuntilthenend.*"
+          regexFlags: i
           token: ${{ secrets.GITHUB_TOKEN }}
 ```
 

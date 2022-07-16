@@ -5,7 +5,8 @@ const fs = require("fs");
 async function run() {
   const content = core.getInput('content', { required: true });
   const contentIsFilePath = core.getInput('contentIsFilePath');
-  const regex = core.getInput('regex') || /---.*/s;
+  const regex = core.getInput('regex') || "---.*";
+  const regexFlags = core.getInput('regexFlags') || "";
   const token = core.getInput('token', { required: true });
 
   const [repoOwner, repoName] = process.env.GITHUB_REPOSITORY.split('/');
@@ -26,8 +27,9 @@ async function run() {
     output = fs.readFileSync(content).toString('utf-8');
   }
 
-  if (body && body.match(regex)) {
-    body = body.replace(regex, output);
+  const re = RegExp(regex, regexFlags);
+  if (body && body.match(re)) {
+    body = body.replace(re, output);
   } else if (body) {
     body += output;
   } else {
