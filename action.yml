@@ -10,7 +10,10 @@ inputs:
     description: Whether the content is a filename or raw text.
     required: false
   regex:
-    description: Regex to match and with content. Pass empty string to append.
+    description: Regex string to match and with content. Pass an empty string to append.
+    required: false
+  regexFlags:
+    description: Regex flags to use.
     required: false
   token:
     description: GitHub secrets access token.
