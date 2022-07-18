@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Do action
-        uses: nefrob/pr-description@v1.0.0
+        uses: nefrob/pr-description@v0.1.2
         with:
           content: "Hello there!"
           regex: "matchuntilthenend.*"
@@ -41,7 +41,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Do action
-        uses: nefrob/pr-description@v1.0.0
+        uses: nefrob/pr-description@v0.1.2
         with:
           content: path/to/file.txt
           contentIsFilePath: true
