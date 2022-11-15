@@ -1,4 +1,4 @@
-name: Update Pull Request Description
+name: Update PR Description
 author: nefrob
 description: Add or update content in GitHub PR description.
 
@@ -7,10 +7,10 @@ inputs:
     description: Content to add to PR description.
     required: true
   contentIsFilePath:
-    description: Whether the content is a filename or raw text.
+    description: Whether the content is a file path or raw text.
     required: false
   regex:
-    description: Regex string to match and with content. Pass an empty string to append.
+    description: Regex string to match and replace with content. Pass an empty string to append.
     required: false
   regexFlags:
     description: Regex flags to use.
