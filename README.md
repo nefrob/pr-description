@@ -1,7 +1,8 @@
 
 # Update Pull Request Description
 
-GitHub action to add or update text in a pull request description.  
+GitHub action to add or update text in a pull request description.
+
 - Input content can be raw text or a file to read from.
 - A regex is used to match and replace text in the PR description. If no matches are found or the description body is empty the content is appended to the bottom of the PR description.
 
@@ -52,17 +53,17 @@ GitHub action to add or update text in a pull request description.
 
   ```markdown
   <!-- start regex match -->
-  Anything in between these comments will be replaced by every comment to the PR on running this action.
+  Anything in between these comments will be replaced by a push to the PR.
   <!-- end regex match -->
   ```
 
   and in your workflow parameters
 
   ```yaml
+  content: "<!-- start regex match -->I am new content!<!-- end regex match -->"
   regex: "<!-- start regex match -->.*?<!-- end regex match -->"
   regexFlags: ims
   ```
-
 
 See an example of it in action [here](https://github.com/nefrob/pr-action-test/pull/1).
 
