@@ -6,6 +6,8 @@ GitHub action to add or update text in a pull request description.
 - Input content can be raw text or a file to read from.
 - A regex is used to match and replace text in the PR description. If no matches are found or the description body is empty the content is appended to the bottom of the PR description.
 
+For now this action only supports `pull_request` events since it expects the push event metadata to get the pull request number. In the future it may be expanded to support other events like `push`.
+
 ## Quickstart
 
 - Sample workflow:
