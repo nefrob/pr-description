@@ -8,6 +8,13 @@ GitHub action to add or update text in a pull request description.
 
 This action supports `pull_request` and `push` events (where the `push` event ocurred on a branch with an open pull request).
 
+<a href="https://gitmoji.dev">
+  <img
+    src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg?style=flat-square"
+    alt="Gitmoji"
+  />
+</a>
+
 ## Quickstart
 
 - Sample workflow:
