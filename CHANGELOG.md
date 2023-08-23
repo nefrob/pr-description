@@ -1,6 +1,8 @@
 # Changelog
 
-## [v1.1.0] - Unreleased
+## [Unreleased]
+
+## [v1.1.0] - 2023-08-23
 
 - Support looking up pull request number on `push` events
 - Bump dependencies
