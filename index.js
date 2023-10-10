@@ -53,10 +53,13 @@ async function run() {
 
     const re = RegExp(regex, regexFlags);
     if (body && body.match(re)) {
+        core.debug(`Replacing regex matched content in PR body`);
         body = body.replace(re, output);
     } else if (body) {
+        core.debug(`Append content to PR body`);
         body += output;
     } else {
+        core.debug(`Setting PR body to content`);
         body = output;
     }
 
