@@ -3,9 +3,12 @@ const github = require("@actions/github");
 const fs = require("fs");
 
 async function run() {
-    const content = core.getInput("content", { required: true });
+    const content = core.getInput("content", {
+        required: true,
+        trimWhitespace: false,
+    });
     const contentIsFilePath = core.getInput("contentIsFilePath");
-    const regex = core.getInput("regex") || "---.*";
+    const regex = core.getInput("regex") || ".*";
     const regexFlags = core.getInput("regexFlags") || "";
     const token = core.getInput("token", { required: true });
 
@@ -53,13 +56,13 @@ async function run() {
 
     const re = RegExp(regex, regexFlags);
     if (body && body.match(re)) {
-        core.debug(`Replacing regex matched content in PR body`);
+        core.notice(`Replacing regex matched content in PR body`);
         body = body.replace(re, output);
     } else if (body) {
-        core.debug(`Append content to PR body`);
+        core.notice(`Append content to PR body`);
         body += output;
     } else {
-        core.debug(`Setting PR body to content`);
+        core.notice(`Setting PR body to content`);
         body = output;
     }
 
