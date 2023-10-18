@@ -29,7 +29,7 @@ This action supports `pull_request` and `push` events (where the `push` event oc
                 - name: Checkout
                   uses: actions/checkout@v3
                 - name: Do action
-                  uses: nefrob/pr-description@v1.1.0
+                  uses: nefrob/pr-description@v1.1.1
                   with:
                       content: "Hello there!"
                       regex: "matchuntilthenend.*"
@@ -50,7 +50,7 @@ This action supports `pull_request` and `push` events (where the `push` event oc
                 - name: Checkout
                   uses: actions/checkout@v3
                 - name: Do action
-                  uses: nefrob/pr-description@v1.1.0
+                  uses: nefrob/pr-description@v1.1.1
                   with:
                       content: path/to/file.txt
                       contentIsFilePath: true
