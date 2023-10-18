@@ -66,7 +66,7 @@ async function run() {
         core.notice(`Setting PR body to content`);
         body = output;
     } else {
-        core.warning(
+        core.notice(
             `No match found and ${appendContentOnMatchOnly} is set, not updating PR body`
         );
         return;
