@@ -9812,10 +9812,14 @@ const github = __nccwpck_require__(5438);
 const fs = __nccwpck_require__(7147);
 
 async function run() {
-    const content = core.getInput("content", { required: true });
+    const content = core.getInput("content", {
+        required: true,
+        trimWhitespace: false,
+    });
     const contentIsFilePath = core.getInput("contentIsFilePath");
     const regex = core.getInput("regex") || "---.*";
     const regexFlags = core.getInput("regexFlags") || "";
+    const appendContentOnMatchOnly = core.getInput("appendContentOnMatchOnly");
     const token = core.getInput("token", { required: true });
 
     const { owner, repo } = github.context.repo;
@@ -9862,11 +9866,19 @@ async function run() {
 
     const re = RegExp(regex, regexFlags);
     if (body && body.match(re)) {
+        core.notice(`Replacing regex matched content in PR body`);
         body = body.replace(re, output);
-    } else if (body) {
+    } else if (body && appendContentOnMatchOnly !== "true") {
+        core.notice(`Append content to PR body`);
         body += output;
-    } else {
+    } else if (appendContentOnMatchOnly !== "true") {
+        core.notice(`Setting PR body to content`);
         body = output;
+    } else {
+        core.notice(
+            `No match found and ${appendContentOnMatchOnly} is set, not updating PR body`
+        );
+        return;
     }
 
     await octokit.rest.pulls.update({
