@@ -15,6 +15,9 @@ inputs:
   regexFlags:
     description: Regex flags to use.
     required: false
+  appendContentOnMatchOnly:
+    description: Whether to append content to the PR body only when there is a regex match.
+    default: "false"
   token:
     description: GitHub secrets access token.
     required: true
