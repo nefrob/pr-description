@@ -2,7 +2,8 @@
 
 ## [Unreleased]
 
--   Adds linting configuration
+-   Add linting configuration
+-   Add basic unit testing
 
 ## [v1.1.1] - 2023-10-18
 
