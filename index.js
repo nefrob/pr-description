@@ -1,6 +1,6 @@
-const core = require("@actions/core");
-const github = require("@actions/github");
-const fs = require("fs");
+import * as github from "@actions/github";
+import * as core from "@actions/github";
+import { readFileSync } from "fs";
 
 async function run() {
     const content = core.getInput("content", {
@@ -29,7 +29,7 @@ async function run() {
         const candidatePullRequests = pullRequests.filter(
             (pr) =>
                 github.context.payload.ref === `refs/heads/${pr.head.ref}` &&
-                pr.state === "open"
+                pr.state === "open",
         );
 
         prNumber = candidatePullRequests?.[0]?.number;
@@ -37,7 +37,7 @@ async function run() {
 
     if (!prNumber) {
         core.setFailed(
-            `No open pull request found for ${github.context.eventName}, ${github.context.sha}`
+            `No open pull request found for ${github.context.eventName}, ${github.context.sha}`,
         );
         return;
     }
@@ -48,26 +48,26 @@ async function run() {
         pull_number: prNumber,
     });
 
-    body = data.body;
+    let body = data.body;
 
     let output = content;
     if (contentIsFilePath && contentIsFilePath === "true") {
-        output = fs.readFileSync(content).toString("utf-8");
+        output = readFileSync(content).toString("utf-8");
     }
 
     const re = RegExp(regex, regexFlags);
     if (body && body.match(re)) {
-        core.notice(`Replacing regex matched content in PR body`);
+        core.notice("Replacing regex matched content in PR body");
         body = body.replace(re, output);
     } else if (body && appendContentOnMatchOnly !== "true") {
-        core.notice(`Append content to PR body`);
+        core.notice("Append content to PR body");
         body += output;
     } else if (appendContentOnMatchOnly !== "true") {
-        core.notice(`Setting PR body to content`);
+        core.notice("Setting PR body to content");
         body = output;
     } else {
         core.notice(
-            `No match found and ${appendContentOnMatchOnly} is set, not updating PR body`
+            `No match found and ${appendContentOnMatchOnly} is set, not updating PR body`,
         );
         return;
     }
