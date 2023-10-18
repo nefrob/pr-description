@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+-   Adds linting configuration
+
 ## [v1.1.1] - 2023-10-18
 
 -   Don't trim content whitespace
