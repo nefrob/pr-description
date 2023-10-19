@@ -32909,7 +32909,7 @@ const run = async () => {
         body = output;
     } else {
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.notice)(
-            `No match found and ${appendContentOnMatchOnly} is set, not updating PR body`,
+            `No match found and appendContentOnMatchOnly is set, not updating PR body`,
         );
         return;
     }
