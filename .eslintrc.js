@@ -6,9 +6,11 @@ module.exports = {
     },
     extends: ["eslint:recommended", "plugin:prettier/recommended"],
     ignorePatterns: ["dist", "node_modules"],
+    parser: "@babel/eslint-parser",
     parserOptions: {
-        ecmaVersion: 2020,
+        ecmaVersion: 6,
         sourceType: "module",
+        requireConfigFile: false,
     },
     plugins: ["prettier", "simple-import-sort", "unused-imports"],
     root: true,

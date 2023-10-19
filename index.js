@@ -1,34 +1,34 @@
-import * as github from "@actions/github";
-import * as core from "@actions/github";
+import { getInput, notice, setFailed } from "@actions/core";
+import { context, getOctokit } from "@actions/github";
 import { readFileSync } from "fs";
 
-async function run() {
-    const content = core.getInput("content", {
+export const run = async () => {
+    const content = getInput("content", {
         required: true,
         trimWhitespace: false,
     });
-    const contentIsFilePath = core.getInput("contentIsFilePath");
-    const regex = core.getInput("regex") || "---.*";
-    const regexFlags = core.getInput("regexFlags") || "";
-    const appendContentOnMatchOnly = core.getInput("appendContentOnMatchOnly");
-    const token = core.getInput("token", { required: true });
+    const contentIsFilePath = getInput("contentIsFilePath");
+    const regex = getInput("regex") || "---.*";
+    const regexFlags = getInput("regexFlags") || "";
+    const appendContentOnMatchOnly = getInput("appendContentOnMatchOnly");
+    const token = getInput("token", { required: true });
 
-    const { owner, repo } = github.context.repo;
-    const octokit = github.getOctokit(token);
+    const { owner, repo } = context.repo;
+    const octokit = getOctokit(token);
 
-    let prNumber = github.context.payload.pull_request?.number;
+    let prNumber = context.payload.pull_request?.number;
     if (!prNumber) {
         // not a pull_request event, try and find the PR number from the commit sha
         const { data: pullRequests } =
             await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
                 owner,
                 repo,
-                commit_sha: github.context.sha,
+                commit_sha: context.sha,
             });
 
         const candidatePullRequests = pullRequests.filter(
             (pr) =>
-                github.context.payload.ref === `refs/heads/${pr.head.ref}` &&
+                context.payload.ref === `refs/heads/${pr.head.ref}` &&
                 pr.state === "open",
         );
 
@@ -36,8 +36,8 @@ async function run() {
     }
 
     if (!prNumber) {
-        core.setFailed(
-            `No open pull request found for ${github.context.eventName}, ${github.context.sha}`,
+        setFailed(
+            `No open pull request found for ${context.eventName}, ${context.sha}`,
         );
         return;
     }
@@ -57,16 +57,16 @@ async function run() {
 
     const re = RegExp(regex, regexFlags);
     if (body && body.match(re)) {
-        core.notice("Replacing regex matched content in PR body");
+        notice("Replacing regex matched content in PR body");
         body = body.replace(re, output);
     } else if (body && appendContentOnMatchOnly !== "true") {
-        core.notice("Append content to PR body");
+        notice("Append content to PR body");
         body += output;
     } else if (appendContentOnMatchOnly !== "true") {
-        core.notice("Setting PR body to content");
+        notice("Setting PR body to content");
         body = output;
     } else {
-        core.notice(
+        notice(
             `No match found and ${appendContentOnMatchOnly} is set, not updating PR body`,
         );
         return;
@@ -78,6 +78,6 @@ async function run() {
         body: body,
         pull_number: prNumber,
     });
-}
+};
 
-run().catch((error) => core.setFailed(error.message));
+run().catch((error) => setFailed(error.message));
