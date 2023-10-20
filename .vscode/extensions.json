@@ -2,6 +2,7 @@
     "recommendations": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "github.vscode-github-actions"
+        "github.vscode-github-actions",
+        "Orta.vscode-jest"
     ]
 }
