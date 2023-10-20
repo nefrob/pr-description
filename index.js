@@ -67,7 +67,7 @@ export const run = async () => {
         body = output;
     } else {
         notice(
-            `No match found and ${appendContentOnMatchOnly} is set, not updating PR body`,
+            `No match found and appendContentOnMatchOnly is set, not updating PR body`,
         );
         return;
     }

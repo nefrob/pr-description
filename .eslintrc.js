@@ -1,7 +1,8 @@
 module.exports = {
     env: {
-        node: true,
         es6: true,
+        jest: true,
+        node: true,
     },
     extends: ["eslint:recommended", "plugin:prettier/recommended"],
     ignorePatterns: ["dist", "node_modules"],
