@@ -4,22 +4,22 @@ description: Add or update content in GitHub PR description.
 
 inputs:
   content:
-    description: Content to add to PR description.
+    description: Content to append or replace in the PR body.
     required: true
   contentIsFilePath:
-    description: Whether the content is a file path or raw text.
+    description: Whether the content is a file path.
     required: false
   regex:
-    description: Regex string to match and replace with content. Pass an empty string to append.
+    description: Regex string to match and replace with content.
     required: false
   regexFlags:
     description: Regex flags to use.
     required: false
   appendContentOnMatchOnly:
-    description: Whether to append content to the PR body only when there is a regex match.
+    description: Whether to append content to the PR body if no matches are found.
     default: "false"
   token:
-    description: GitHub secrets access token.
+    description: GitHub access token.
     required: true
 
 runs:

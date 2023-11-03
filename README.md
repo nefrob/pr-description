@@ -1,11 +1,6 @@
 # Update Pull Request Description
 
-GitHub action to add or update text in a pull request description.
-
--   Input content can be raw text or a file to read from.
--   A regex is used to match and replace text in the PR description. If no matches are found or the description body is empty the content is appended to the bottom of the PR description by default. This can be disabled by setting `appendContentOnMatchOnly` to `"true"` so no change to the body is made on a match failure.
-
-This action supports `pull_request` and `push` events (where the `push` event ocurred on a branch with an open pull request).
+GitHub action to append or replace text in a pull request description.
 
 <a href="https://gitmoji.dev">
   <img
@@ -14,9 +9,22 @@ This action supports `pull_request` and `push` events (where the `push` event oc
   />
 </a>
 
-## Quickstart
+## Usage
 
--   Sample workflow:
+This action supports `pull_request` and `push` events (where the `push` event ocurred on a branch with an open pull request).
+
+### Inputs
+
+-   `content`: The content to append or replace in the PR body. Can be raw text or a file path. If a file path is provided, `contentIsFilePath` must be set to `"true"`.
+-   `contentIsFilePath`: Whether the `content` input is a file path. Defaults to `"false"`.
+-   `regex`: The regex to match against the PR body and replace with `content`. Defaults to `"---.*"`.
+-   `regexFlags`: The regex flags to use. Defaults to `""`.
+-   `appendContentOnMatchOnly`: Whether to append the `content` to the PR body if no matches are found. Defaults to `"false"`.
+-   `token`: The GitHub token to use.
+
+### Example Workflows
+
+-   Simple replace all text in the PR description with `Hello there!`:
 
     ```yaml
     on:
@@ -28,16 +36,16 @@ This action supports `pull_request` and `push` events (where the `push` event oc
             steps:
                 - name: Checkout
                   uses: actions/checkout@v3
-                - name: Do action
+                - name: Update PR Description
                   uses: nefrob/pr-description@v1.1.1
                   with:
                       content: "Hello there!"
-                      regex: "matchuntilthenend.*"
+                      regex: ".*"
                       regexFlags: i
                       token: ${{ secrets.GITHUB_TOKEN }}
     ```
 
--   Alternatively reading content from a file:
+-   Reading from a file:
 
     ```yaml
     on:
@@ -49,7 +57,7 @@ This action supports `pull_request` and `push` events (where the `push` event oc
             steps:
                 - name: Checkout
                   uses: actions/checkout@v3
-                - name: Do action
+                - name: Update PR Description
                   uses: nefrob/pr-description@v1.1.1
                   with:
                       content: path/to/file.txt
@@ -57,7 +65,9 @@ This action supports `pull_request` and `push` events (where the `push` event oc
                       token: ${{ secrets.GITHUB_TOKEN }}
     ```
 
--   Using a pull request template with comments to match via regex can be very useful. For example in your `pull_request_template.md` add
+-   Replace text in between comments:
+
+    `pull_request_template.md` file
 
     ```markdown
     <!-- start regex match -->
@@ -67,16 +77,23 @@ This action supports `pull_request` and `push` events (where the `push` event oc
     <!-- end regex match -->
     ```
 
-    and in your workflow parameters
+    and workflow
 
     ```yaml
-    content: "<!-- start regex match -->I am new content!<!-- end regex match -->"
-    regex: "<!-- start regex match -->.*?<!-- end regex match -->"
-    regexFlags: ims
+    on:
+        pull_request:
+
+    jobs:
+        update-pr-description:
+            runs-on: ubuntu-latest
+            steps:
+                - name: Checkout
+                  uses: actions/checkout@v3
+                - name: Update PR Description
+                  uses: nefrob/pr-description@v1.1.1
+                  with:
+                      content: "<!-- start regex match -->I am new content!<!-- end regex match -->"
+                      regex: "<!-- start regex match -->.*?<!-- end regex match -->"
+                      regexFlags: ims
+                      token: ${{ secrets.GITHUB_TOKEN }}
     ```
-
-See an example of it in action [here](https://github.com/nefrob/pr-action-test/pull/1).
-
-## References
-
--   [Creating a JavaScript action](https://docs.github.com/en/actions/creating-actions/creating-a-javascript-action)
