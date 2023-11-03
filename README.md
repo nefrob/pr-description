@@ -92,7 +92,7 @@ This action supports `pull_request` and `push` events (where the `push` event oc
                 - name: Update PR Description
                   uses: nefrob/pr-description@v1.1.1
                   with:
-                      content: "<!-- start regex match -->I am new content!<!-- end regex match -->"
+                      content: "<!-- start regex match -->New content!<!-- end regex match -->"
                       regex: "<!-- start regex match -->.*?<!-- end regex match -->"
                       regexFlags: ims
                       token: ${{ secrets.GITHUB_TOKEN }}
