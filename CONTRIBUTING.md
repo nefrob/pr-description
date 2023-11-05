@@ -6,7 +6,11 @@ This page lists the steps needed to set up a development environment and contrib
 
 2. Setup `nodejs`. We recommend using [asdf](https://asdf-vm.com/guide/getting-started.html).
 
-3. Install `yarn`.
+3. Install dependencies.
+
+    ```shell
+    yarn install
+    ```
 
 4. Run tests:
 

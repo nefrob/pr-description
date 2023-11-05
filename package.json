@@ -3,6 +3,7 @@
     "version": "1.1.1",
     "main": "index.js",
     "license": "MIT",
+    "packageManager": "yarn@4.0.1",
     "scripts": {
         "rebuild": "ncc build index.js --license licenses.txt --target es6",
         "test": "jest",
