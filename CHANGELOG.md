@@ -4,6 +4,8 @@
 
 -   Add linting configuration
 -   Add basic unit testing
+-   Pin yarn version
+-   Upgrade action runner to `node20`
 
 ## [v1.1.1] - 2023-10-18
 
