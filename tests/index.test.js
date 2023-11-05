@@ -8,6 +8,8 @@ import { run } from "../index";
 
 nock.disableNetConnect();
 
+const originalEnv = process.env;
+
 const noticeMock = jest.spyOn(core, "notice").mockImplementation();
 const failedMock = jest.spyOn(core, "setFailed").mockImplementation();
 
@@ -22,12 +24,7 @@ describe("pull request event", () => {
         jest.resetModules();
         nock.cleanAll();
 
-        process.env["INPUT_CONTENT"] = "new content";
-        process.env["INPUT_TOKEN"] = "github-token";
-        process.env["INPUT_CONTENTISFILEPATH"] = "false";
-        process.env["INPUT_REGEX"] = ".*";
-        process.env["INPUT_REGEXFLAGS"] = "";
-        process.env["INPUT_APPENDCONTENTONMATCHONLY"] = "false";
+        process.env = { ...originalEnv };
 
         const owner = "owner-name";
         const repo = "repo-name";
