@@ -19,8 +19,10 @@ This action supports `pull_request` and `push` events (where the `push` event oc
 -   `contentIsFilePath`: Whether the `content` input is a file path. Defaults to `"false"`.
 -   `regex`: The regex to match against the PR body and replace with `content`. Defaults to `"---.*"`.
 -   `regexFlags`: The regex flags to use. Defaults to `""`.
--   `appendContentOnMatchOnly`: Whether to append the `content` to the PR body if no matches are found. Defaults to `"false"`.
+-   `appendContentOnMatchOnly`: Whether to skip appending the `content` to the PR body if no `regex` matches are found. Defaults to `"false"`.
 -   `token`: The GitHub token to use.
+
+Note: append mode is the default behavior when no `regex` match is found for backwards compatibility with existing action users. This may change in future minor/major versions and will be noted in the [changelog](./CHANGELOG.md).
 
 ### Example Workflows
 
