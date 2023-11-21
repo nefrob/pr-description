@@ -16,7 +16,7 @@ inputs:
     description: Regex flags to use.
     required: false
   appendContentOnMatchOnly:
-    description: Whether to append content to the PR body if no matches are found.
+    description: Whether to skip appending the content to the PR body if no regex matches are found.
     default: "false"
   token:
     description: GitHub access token.
