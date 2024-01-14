@@ -18,7 +18,7 @@ export const run = async () => {
 
     let prNumber = context.payload.pull_request?.number;
     if (!prNumber) {
-        // not a pull_request event, try and find the PR number from the commit sha
+        // not a pull_request event, try and find a PR number from the commit sha
         const { data: pullRequests } =
             await octokit.rest.repos.listPullRequestsAssociatedWithCommit({
                 owner,
