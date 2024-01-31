@@ -1,8 +1,8 @@
 {
     "editor.codeActionsOnSave": {
-        "source.fixAll": true,
+        "source.fixAll": "explicit",
         // note: disable vscode import sorting in favor of eslint
-        "source.organizeImports": false
+        "source.organizeImports": "never"
     },
     "editor.formatOnSave": true
 }

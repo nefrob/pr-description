@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [v1.1.2] - 2024-01-31
+
 -   Add linting configuration
 -   Add basic unit testing
 -   Pin yarn version
