@@ -143,6 +143,52 @@ describe("pull request event", () => {
         expect(failedMock).not.toHaveBeenCalled();
     });
 
+    it("should replace PR body content on newline regex match", async () => {
+        mockPrGetReturn.mockImplementation(() => {
+            return {
+                body: "existing body\nnewline",
+            };
+        });
+
+        process.env["INPUT_REGEXFLAGS"] = "s";
+
+        await run();
+
+        expect(mockPrGet).toHaveBeenCalledTimes(1);
+        expect(noticeMock).toHaveBeenCalledWith(
+            "Replacing regex matched content in PR body",
+        );
+        expect(mockPrUpdate).toHaveBeenCalledWith({
+            body: "new content",
+        });
+        expect(mockPrList).not.toHaveBeenCalled();
+        expect(failedMock).not.toHaveBeenCalled();
+    });
+
+    it("should replace all instances of match in PR body content on global regex match", async () => {
+        mockPrGetReturn.mockImplementation(() => {
+            return {
+                body: "existing body existing",
+            };
+        });
+
+        process.env["INPUT_CONTENT"] = "new";
+        process.env["INPUT_REGEX"] = "existing";
+        process.env["INPUT_REGEXFLAGS"] = "g";
+
+        await run();
+
+        expect(mockPrGet).toHaveBeenCalledTimes(1);
+        expect(noticeMock).toHaveBeenCalledWith(
+            "Replacing regex matched content in PR body",
+        );
+        expect(mockPrUpdate).toHaveBeenCalledWith({
+            body: "new body new",
+        });
+        expect(mockPrList).not.toHaveBeenCalled();
+        expect(failedMock).not.toHaveBeenCalled();
+    });
+
     it("should append content to PR body on no regex match", async () => {
         process.env["INPUT_REGEX"] = "no match";
 
