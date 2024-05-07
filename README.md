@@ -37,14 +37,27 @@ Note: append mode is the default behavior when no `regex` match is found for bac
             runs-on: ubuntu-latest
             steps:
                 - name: Checkout
-                  uses: actions/checkout@v3
+                  uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.1.1
+                  uses: nefrob/pr-description@v1.1.2
                   with:
                       content: "Hello there!"
                       regex: ".*"
-                      regexFlags: i
+                      regexFlags: s
                       token: ${{ secrets.GITHUB_TOKEN }}
+    ```
+
+    Body before:
+
+    ```markdown
+    Existing
+    Body
+    ```
+
+    Body after:
+
+    ```markdown
+    Hello there!
     ```
 
 -   Reading from a file:
@@ -58,28 +71,34 @@ Note: append mode is the default behavior when no `regex` match is found for bac
             runs-on: ubuntu-latest
             steps:
                 - name: Checkout
-                  uses: actions/checkout@v3
+                  uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.1.1
+                  uses: nefrob/pr-description@v1.1.2
                   with:
                       content: path/to/file.txt
                       contentIsFilePath: true
                       token: ${{ secrets.GITHUB_TOKEN }}
     ```
 
--   Replace text in between comments:
+    File content:
 
-    `pull_request_template.md` file
-
-    ```markdown
-    <!-- start regex match -->
-
-    Anything in between these comments will be replaced by a push to the PR.
-
-    <!-- end regex match -->
+    ```text
+    Hello there!
     ```
 
-    and workflow
+    Body before:
+
+    ```markdown
+    Existing body
+    ```
+
+    Body after:
+
+    ```markdown
+    Hello there!
+    ```
+
+-   Replace text in between comments:
 
     ```yaml
     on:
@@ -94,8 +113,26 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Update PR Description
                   uses: nefrob/pr-description@v1.1.1
                   with:
-                      content: "<!-- start regex match -->New content!<!-- end regex match -->"
-                      regex: "<!-- start regex match -->.*?<!-- end regex match -->"
+                      content: "<!-- start match -->\nHello there!\n<!-- end match -->"
+                      regex: "<!-- start match -->.*?<!-- end match -->"
                       regexFlags: ims
                       token: ${{ secrets.GITHUB_TOKEN }}
     ```
+
+    Body before:
+
+    ```text
+    <!-- start match -->
+    Anything in between these comments will be replaced by a push to the PR.
+    <!-- end match -->
+    ```
+
+    Body after:
+
+    ```text
+    <!-- start match -->
+    Hello there!
+    <!-- end match -->
+    ```
+
+    This is particularly useful when paired with a `pull_request_template.md` that includes comments like these for automatic updates on every PR.
