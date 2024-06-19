@@ -111,7 +111,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v3
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.1.1
+                  uses: nefrob/pr-description@v1.1.2
                   with:
                       content: "<!-- start match -->\nHello there!\n<!-- end match -->"
                       regex: "<!-- start match -->.*?<!-- end match -->"
