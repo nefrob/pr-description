@@ -109,7 +109,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
             runs-on: ubuntu-latest
             steps:
                 - name: Checkout
-                  uses: actions/checkout@v3
+                  uses: actions/checkout@v4
                 - name: Update PR Description
                   uses: nefrob/pr-description@v1.1.2
                   with:
