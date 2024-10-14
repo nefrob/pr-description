@@ -20,7 +20,7 @@ This action supports `pull_request` and `push` events (where the `push` event oc
 -   `regex`: The regex to match against the PR body and replace with `content`. Defaults to `"---.*"`.
 -   `regexFlags`: The regex flags to use. Defaults to `""`.
 -   `appendContentOnMatchOnly`: Whether to skip appending the `content` to the PR body if no `regex` matches are found. Defaults to `"false"`.
--   `appendRegexToReplacement`: Whether the regex should also be executed on the replacement. 
+-   `appendRegexToReplacement`: Whether the regex should also be executed on the replacement.
 -   `token`: The GitHub token to use.
 
 Note: append mode is the default behavior when no `regex` match is found for backwards compatibility with existing action users. This may change in future minor/major versions and will be noted in the [changelog](./CHANGELOG.md).
@@ -40,7 +40,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.1.2
+                  uses: nefrob/pr-description@v1.1.3
                   with:
                       content: "Hello there!"
                       regex: ".*"
@@ -74,7 +74,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.1.2
+                  uses: nefrob/pr-description@v1.1.3
                   with:
                       content: path/to/file.txt
                       contentIsFilePath: true
@@ -112,7 +112,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.1.2
+                  uses: nefrob/pr-description@v1.1.3
                   with:
                       content: "<!-- start match -->\nHello there!\n<!-- end match -->"
                       regex: "<!-- start match -->.*?<!-- end match -->"
