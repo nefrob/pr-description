@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+
+## [v1.1.3] - 2024-10-14
+
+-   Added option to regex replacement as well.
+
 ## [v1.1.2] - 2024-01-31
 
 -   Add linting configuration

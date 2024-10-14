@@ -11,6 +11,7 @@ export const run = async () => {
     const regex = getInput("regex") || "---.*";
     const regexFlags = getInput("regexFlags") || "";
     const appendContentOnMatchOnly = getInput("appendContentOnMatchOnly");
+    const appendRegexToReplacement = getInput("appendRegexToReplacement");
     const token = getInput("token", { required: true });
 
     const { owner, repo } = context.repo;
@@ -56,6 +57,15 @@ export const run = async () => {
     }
 
     const re = RegExp(regex, regexFlags);
+
+    if (appendRegexToReplacement === "true") {
+        const newOutput = output.match(re);
+        if (newOutput) {
+            notice("Replacing regex matched content in replacement payload");
+            output = newOutput[0];
+        }
+    }
+
     if (body && body.match(re)) {
         notice("Replacing regex matched content in PR body");
         body = body.replace(re, output);

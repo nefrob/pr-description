@@ -9,6 +9,9 @@ inputs:
   contentIsFilePath:
     description: Whether the content is a file path.
     required: false
+  appendRegexToReplacement:
+    description: Apply the regex also to the replacement. 
+    required: false
   regex:
     description: Regex string to match and replace with content.
     required: false
