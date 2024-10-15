@@ -20,7 +20,8 @@ This action supports `pull_request` and `push` events (where the `push` event oc
 -   `regex`: The regex to match against the PR body and replace with `content`. Defaults to `"---.*"`.
 -   `regexFlags`: The regex flags to use. Defaults to `""`.
 -   `appendContentOnMatchOnly`: Whether to skip appending the `content` to the PR body if no `regex` matches are found. Defaults to `"false"`.
--   `appendRegexToReplacement`: Whether the regex should also be executed on the replacement.
+-   `replacementRegex`: The regex to match against the replacement payload, to filter out non-interesting content. Defaults to `""`.
+-   `replacementRegexFlags`: The regex flags for the replacementRegex. Defaults to `""`.
 -   `token`: The GitHub token to use.
 
 Note: append mode is the default behavior when no `regex` match is found for backwards compatibility with existing action users. This may change in future minor/major versions and will be noted in the [changelog](./CHANGELOG.md).
@@ -137,3 +138,54 @@ Note: append mode is the default behavior when no `regex` match is found for bac
     ```
 
     This is particularly useful when paired with a `pull_request_template.md` that includes comments like these for automatic updates on every PR.
+
+-   Extract content from CHANGELOG and place into description:
+
+    ```yaml
+    on:
+        pull_request:
+
+    jobs:
+        update-pr-description:
+            runs-on: ubuntu-latest
+            steps:
+                - name: Checkout
+                  uses: actions/checkout@v4
+                - name: Update PR Description
+                  uses: nefrob/pr-description@v1.1.3
+                  with:
+                      content: path/to/GHANGELOG.md
+                      contentIsFilePath: true
+                      replacementRegex: "^##([\\s\\S]*?)(?=\\n##|$)"
+                      regexFlags: g
+                      token: ${{ secrets.GITHUB_TOKEN }}
+    ```
+
+    File content:
+
+    ```text
+      ## 1.0.15 Bug fixes
+      - Fixed bug #032
+      - Fixed bug #033
+
+      ## 1.0.14 Bug fixes
+      - Fixed bug #013
+      - Fixed bug #026
+    ```
+
+    Body before:
+
+    ```text
+      My previous description
+    ```
+
+    Body after:
+
+    ```text
+      ## 1.0.15 Bug fixes
+      - Fixed bug #032
+      - Fixed bug #033
+
+    ```
+
+    This is particularly useful to extract the latest changes form a `changelog.md` file or something similar.

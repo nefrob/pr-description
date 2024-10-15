@@ -232,14 +232,15 @@ describe("pull request event", () => {
         expect(failedMock).not.toHaveBeenCalled();
     });
 
-    it("should replace replace body with regex match from content", async () => {
-        process.env["INPUT_REGEX"] = "^(##[\\s\\S]*?)(?=\\n##|$)";
+    it("should replace description body with regex match from replacement payload", async () => {
+        process.env["INPUT_REPLACEMENTREGEX"] = "##(.*?)##";
+        process.env["INPUT_REGEX"] = "##(.*?)##";
         process.env["INPUT_APPENDREGEXTOREPLACEMENT"] = "true";
-        process.env["INPUT_CONTENT"] = "## REPLACEMENT ##";
+        process.env["INPUT_CONTENT"] = "IGNORABLE ## REPLACEMENT ## IGNORABLE";
 
         mockPrGetReturn.mockImplementation(() => {
             return {
-                body: "",
+                body: "testing: ## TO BE REPLACED ##",
             };
         });
 
@@ -250,16 +251,17 @@ describe("pull request event", () => {
             "Replacing regex matched content in replacement payload",
         );
         expect(mockPrUpdate).toHaveBeenCalledWith({
-            body: "## REPLACEMENT ##",
+            body: "testing: ## REPLACEMENT ##",
         });
         expect(mockPrList).not.toHaveBeenCalled();
         expect(failedMock).not.toHaveBeenCalled();
     });
 
-    it("should replace replace body with regex match from content", async () => {
-        process.env["INPUT_REGEX"] = "^(##[\\s\\S]*?)(?=\\n##|$)";
-        process.env["INPUT_APPENDREGEXTOREPLACEMENT"] = "true";
-        process.env["INPUT_CONTENT"] = "## ADDITION ##";
+    it("should append replacement payload regex match to description body if no regex match for description.", async () => {
+        process.env["INPUT_REPLACEMENTREGEX"] = "##(.*?)##";
+        process.env["INPUT_REGEX"] = "##(.*?)##";
+
+        process.env["INPUT_CONTENT"] = "IGNORABLE: ## ADDITION ##";
 
         mockPrGetReturn.mockImplementation(() => {
             return {
@@ -275,6 +277,29 @@ describe("pull request event", () => {
         );
         expect(mockPrUpdate).toHaveBeenCalledWith({
             body: "CURRENT BODY ## ADDITION ##",
+        });
+        expect(mockPrList).not.toHaveBeenCalled();
+        expect(failedMock).not.toHaveBeenCalled();
+    });
+
+    it("should replace description body with regex match from replacement payload", async () => {
+        process.env["INPUT_REPLACEMENTREGEX"] = "##(.*?)##";
+
+        process.env["INPUT_CONTENT"] = "IGNORABLE ## REPLACEMENT ## IGNORABLE";
+        mockPrGetReturn.mockImplementation(() => {
+            return {
+                body: "CURRENT BODY ",
+            };
+        });
+
+        await run();
+
+        expect(mockPrGet).toHaveBeenCalledTimes(1);
+        expect(noticeMock).toHaveBeenCalledWith(
+            "Replacing regex matched content in replacement payload",
+        );
+        expect(mockPrUpdate).toHaveBeenCalledWith({
+            body: "## REPLACEMENT ##",
         });
         expect(mockPrList).not.toHaveBeenCalled();
         expect(failedMock).not.toHaveBeenCalled();
