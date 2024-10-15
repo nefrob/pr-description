@@ -41,7 +41,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.1.3
+                  uses: nefrob/pr-description@v1.2.0
                   with:
                       content: "Hello there!"
                       regex: ".*"
@@ -75,7 +75,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.1.3
+                  uses: nefrob/pr-description@v1.2.0
                   with:
                       content: path/to/file.txt
                       contentIsFilePath: true
@@ -113,7 +113,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.1.3
+                  uses: nefrob/pr-description@v1.2.0
                   with:
                       content: "<!-- start match -->\nHello there!\n<!-- end match -->"
                       regex: "<!-- start match -->.*?<!-- end match -->"
@@ -152,7 +152,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.1.3
+                  uses: nefrob/pr-description@v1.2.0
                   with:
                       content: path/to/GHANGELOG.md
                       contentIsFilePath: true
