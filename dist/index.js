@@ -36119,8 +36119,9 @@ const run = async () => {
     const contentIsFilePath = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("contentIsFilePath");
     const regex = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("regex") || "---.*";
     const regexFlags = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("regexFlags") || "";
+    const replacementRegex = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("replacementRegex") || "";
+    const replacementRegexFlags = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("replacementRegexFlags") || "";
     const appendContentOnMatchOnly = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("appendContentOnMatchOnly");
-    const appendRegexToReplacement = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("appendRegexToReplacement");
     const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("token", { required: true });
 
     const { owner, repo } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo;
@@ -36165,16 +36166,16 @@ const run = async () => {
         output = (0,fs__WEBPACK_IMPORTED_MODULE_2__.readFileSync)(content).toString("utf-8");
     }
 
-    const re = RegExp(regex, regexFlags);
-
-    if (appendRegexToReplacement === "true") {
-        const newOutput = output.match(re);
+    if (typeof replacementRegex === "object" || replacementRegex.length > 0) {
+        const replacementRe = RegExp(replacementRegex, replacementRegexFlags);
+        const newOutput = output.match(replacementRe);
         if (newOutput) {
             (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.notice)("Replacing regex matched content in replacement payload");
             output = newOutput[0];
         }
     }
 
+    const re = RegExp(regex, regexFlags);
     if (body && body.match(re)) {
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.notice)("Replacing regex matched content in PR body");
         body = body.replace(re, output);
