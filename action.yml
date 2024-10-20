@@ -10,9 +10,15 @@ inputs:
     description: Whether the content is a file path.
     required: false
   regex:
-    description: Regex string to match and replace with content.
+    description: Regex string to match and replace the description.
     required: false
   regexFlags:
+    description: Regex flags to use.
+    required: false
+  replacementRegex:
+    description: Regex string for replacing description with only a specific part of the replacement payload (only first match).
+    required: false
+  replacementRegexFlags:
     description: Regex flags to use.
     required: false
   appendContentOnMatchOnly:

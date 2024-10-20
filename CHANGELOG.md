@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [v1.2.0] - 2024-10-14
+
+-   Added option to extract from placement using same regex as output regex.
+
 ## [v1.1.2] - 2024-01-31
 
 -   Add linting configuration

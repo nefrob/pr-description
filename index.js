@@ -10,6 +10,8 @@ export const run = async () => {
     const contentIsFilePath = getInput("contentIsFilePath");
     const regex = getInput("regex") || "---.*";
     const regexFlags = getInput("regexFlags") || "";
+    const replacementRegex = getInput("replacementRegex") || "";
+    const replacementRegexFlags = getInput("replacementRegexFlags") || "";
     const appendContentOnMatchOnly = getInput("appendContentOnMatchOnly");
     const token = getInput("token", { required: true });
 
@@ -53,6 +55,15 @@ export const run = async () => {
     let output = content;
     if (contentIsFilePath && contentIsFilePath === "true") {
         output = readFileSync(content).toString("utf-8");
+    }
+
+    if (typeof replacementRegex === "object" || replacementRegex.length > 0) {
+        const replacementRe = RegExp(replacementRegex, replacementRegexFlags);
+        const newOutput = output.match(replacementRe);
+        if (newOutput) {
+            notice("Replacing regex matched content in replacement payload");
+            output = newOutput[0];
+        }
     }
 
     const re = RegExp(regex, regexFlags);
