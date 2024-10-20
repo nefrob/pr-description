@@ -9,17 +9,17 @@ inputs:
   contentIsFilePath:
     description: Whether the content is a file path.
     required: false
+  contentRegex:
+    description: Regex string to match the content.
+    required: false
+  contentRegexFlags:
+    description: Content match regex flags to use.
+    required: false
   regex:
     description: Regex string to match and replace the description.
     required: false
   regexFlags:
-    description: Regex flags to use.
-    required: false
-  replacementRegex:
-    description: Regex string for replacing description with only a specific part of the replacement payload (only first match).
-    required: false
-  replacementRegexFlags:
-    description: Regex flags to use.
+    description: Description match regex flags to use.
     required: false
   appendContentOnMatchOnly:
     description: Whether to skip appending the content to the PR body if no regex matches are found.

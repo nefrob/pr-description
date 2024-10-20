@@ -17,11 +17,11 @@ This action supports `pull_request` and `push` events (where the `push` event oc
 
 -   `content`: The content to append or replace in the PR body. Can be raw text or a file path. If a file path is provided, `contentIsFilePath` must be set to `"true"`.
 -   `contentIsFilePath`: Whether the `content` input is a file path. Defaults to `"false"`.
+-   `contentRegex`: The regex to match against the `content`. Used to select a specific part of the content to use. Defaults to `""` (everything).
+-   `contentRegexFlags`: The content matchregex flags to use. Defaults to `""`.
 -   `regex`: The regex to match against the PR body and replace with `content`. Defaults to `"---.*"`.
 -   `regexFlags`: The regex flags to use. Defaults to `""`.
 -   `appendContentOnMatchOnly`: Whether to skip appending the `content` to the PR body if no `regex` matches are found. Defaults to `"false"`.
--   `replacementRegex`: The regex to match against the replacement payload, to filter out non-interesting content. Defaults to `""`.
--   `replacementRegexFlags`: The regex flags for the replacementRegex. Defaults to `""`.
 -   `token`: The GitHub token to use.
 
 Note: append mode is the default behavior when no `regex` match is found for backwards compatibility with existing action users. This may change in future minor/major versions and will be noted in the [changelog](./CHANGELOG.md).
@@ -79,6 +79,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                   with:
                       content: path/to/file.txt
                       contentIsFilePath: true
+                      regex: ".*"
                       token: ${{ secrets.GITHUB_TOKEN }}
     ```
 
@@ -139,7 +140,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
 
     This is particularly useful when paired with a `pull_request_template.md` that includes comments like these for automatic updates on every PR.
 
--   Extract content from CHANGELOG and place into description:
+-   Match a specific part of the content:
 
     ```yaml
     on:
@@ -154,38 +155,38 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Update PR Description
                   uses: nefrob/pr-description@v1.2.0
                   with:
-                      content: path/to/GHANGELOG.md
+                      content: path/to/CHANGELOG.md
                       contentIsFilePath: true
-                      replacementRegex: "^##([\\s\\S]*?)(?=\\n##|$)"
-                      regexFlags: g
+                      contentRegex: "^##([\\s\\S]*?)(?=\\n##|$)"
+                      contentRegexFlags: g
+                      regex: ".*"
                       token: ${{ secrets.GITHUB_TOKEN }}
     ```
 
     File content:
 
     ```text
-      ## 1.0.15 Bug fixes
-      - Fixed bug #032
-      - Fixed bug #033
+    ## 1.0.2 Bug fixes
+    - Fixed bug #4
+    - Fixed bug #3
 
-      ## 1.0.14 Bug fixes
-      - Fixed bug #013
-      - Fixed bug #026
+    ## 1.0.1 Bug fixes
+    - Fixed bug #2
+    - Fixed bug #1
     ```
 
     Body before:
 
     ```text
-      My previous description
+    Existing body
     ```
 
     Body after:
 
     ```text
-      ## 1.0.15 Bug fixes
-      - Fixed bug #032
-      - Fixed bug #033
-
+    ## 1.0.2 Bug fixes
+    - Fixed bug #4
+    - Fixed bug #3
     ```
 
-    This is particularly useful to extract the latest changes form a `changelog.md` file or something similar.
+    This could be used to extract the latest changes from a `changelog.md` or similar.

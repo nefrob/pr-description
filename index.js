@@ -8,10 +8,10 @@ export const run = async () => {
         trimWhitespace: false,
     });
     const contentIsFilePath = getInput("contentIsFilePath");
+    const contentRegex = getInput("contentRegex") || "";
+    const contentRegexFlags = getInput("contentRegexFlags") || "";
     const regex = getInput("regex") || "---.*";
     const regexFlags = getInput("regexFlags") || "";
-    const replacementRegex = getInput("replacementRegex") || "";
-    const replacementRegexFlags = getInput("replacementRegexFlags") || "";
     const appendContentOnMatchOnly = getInput("appendContentOnMatchOnly");
     const token = getInput("token", { required: true });
 
@@ -57,18 +57,18 @@ export const run = async () => {
         output = readFileSync(content).toString("utf-8");
     }
 
-    if (typeof replacementRegex === "object" || replacementRegex.length > 0) {
-        const replacementRe = RegExp(replacementRegex, replacementRegexFlags);
-        const newOutput = output.match(replacementRe);
-        if (newOutput) {
-            notice("Replacing regex matched content in replacement payload");
-            output = newOutput[0];
+    if (contentRegex) {
+        const contentRe = RegExp(contentRegex, contentRegexFlags);
+        const matchedContent = output.match(contentRe);
+        if (matchedContent) {
+            notice("Selecting matched content");
+            output = matchedContent.join("");
         }
     }
 
     const re = RegExp(regex, regexFlags);
     if (body && body.match(re)) {
-        notice("Replacing regex matched content in PR body");
+        notice("Replacing matched PR body with content");
         body = body.replace(re, output);
     } else if (body && appendContentOnMatchOnly !== "true") {
         notice("Append content to PR body");

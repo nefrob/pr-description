@@ -4,7 +4,7 @@
 
 ## [v1.2.0] - 2024-10-14
 
--   Added option to extract from placement using same regex as output regex.
+-   Added content match regex and flag support
 
 ## [v1.1.2] - 2024-01-31
 
