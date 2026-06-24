@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [v1.3.0] - 2026-06-24
+
+-   Upgrade action runner to `node24`
+
 ## [v1.2.0] - 2024-10-14
 
 -   Added content match regex and flag support

@@ -15,20 +15,20 @@ This action supports `pull_request` and `push` events (where the `push` event oc
 
 ### Inputs
 
--   `content`: The content to append or replace in the PR body. Can be raw text or a file path. If a file path is provided, `contentIsFilePath` must be set to `"true"`.
--   `contentIsFilePath`: Whether the `content` input is a file path. Defaults to `"false"`.
--   `contentRegex`: The regex to match against the `content`. Used to select a specific part of the content to use. Defaults to `""` (everything).
--   `contentRegexFlags`: The content matchregex flags to use. Defaults to `""`.
--   `regex`: The regex to match against the PR body and replace with `content`. Defaults to `"---.*"`.
--   `regexFlags`: The regex flags to use. Defaults to `""`.
--   `appendContentOnMatchOnly`: Whether to skip appending the `content` to the PR body if no `regex` matches are found. Defaults to `"false"`.
--   `token`: The GitHub token to use.
+- `content`: The content to append or replace in the PR body. Can be raw text or a file path. If a file path is provided, `contentIsFilePath` must be set to `"true"`.
+- `contentIsFilePath`: Whether the `content` input is a file path. Defaults to `"false"`.
+- `contentRegex`: The regex to match against the `content`. Used to select a specific part of the content to use. Defaults to `""` (everything).
+- `contentRegexFlags`: The content matchregex flags to use. Defaults to `""`.
+- `regex`: The regex to match against the PR body and replace with `content`. Defaults to `"---.*"`.
+- `regexFlags`: The regex flags to use. Defaults to `""`.
+- `appendContentOnMatchOnly`: Whether to skip appending the `content` to the PR body if no `regex` matches are found. Defaults to `"false"`.
+- `token`: The GitHub token to use.
 
 Note: append mode is the default behavior when no `regex` match is found for backwards compatibility with existing action users. This may change in future minor/major versions and will be noted in the [changelog](./CHANGELOG.md).
 
 ### Example Workflows
 
--   Simple replace all text in the PR description with `Hello there!`:
+- Simple replace all text in the PR description with `Hello there!`:
 
     ```yaml
     on:
@@ -41,7 +41,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.2.0
+                  uses: nefrob/pr-description@v1.3.0
                   with:
                       content: "Hello there!"
                       regex: ".*"
@@ -62,7 +62,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
     Hello there!
     ```
 
--   Reading from a file:
+- Reading from a file:
 
     ```yaml
     on:
@@ -75,7 +75,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.2.0
+                  uses: nefrob/pr-description@v1.3.0
                   with:
                       content: path/to/file.txt
                       contentIsFilePath: true
@@ -101,7 +101,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
     Hello there!
     ```
 
--   Replace text in between comments:
+- Replace text in between comments:
 
     ```yaml
     on:
@@ -114,7 +114,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.2.0
+                  uses: nefrob/pr-description@v1.3.0
                   with:
                       content: "<!-- start match -->\nHello there!\n<!-- end match -->"
                       regex: "<!-- start match -->.*?<!-- end match -->"
@@ -140,7 +140,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
 
     This is particularly useful when paired with a `pull_request_template.md` that includes comments like these for automatic updates on every PR.
 
--   Match a specific part of the content:
+- Match a specific part of the content:
 
     ```yaml
     on:
@@ -153,7 +153,7 @@ Note: append mode is the default behavior when no `regex` match is found for bac
                 - name: Checkout
                   uses: actions/checkout@v4
                 - name: Update PR Description
-                  uses: nefrob/pr-description@v1.2.0
+                  uses: nefrob/pr-description@v1.3.0
                   with:
                       content: path/to/CHANGELOG.md
                       contentIsFilePath: true
